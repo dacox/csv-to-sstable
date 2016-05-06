@@ -103,6 +103,22 @@ public class Bulkload {
 		}
 		throw new RuntimeException("Could not extract table name from provided schema.");
 	}
+
+	private static String detectDateFormat(String value) {
+		if (value.indexOf("T") > 0) {
+			if (value.length() == 21) {
+				return "yyyy-MM-ddTHH:mmX";
+			} else {
+				return "yyyy-MM-ddTHH:mm:ssX";
+			}
+		} else {
+			if (value.length() == 21) {
+				return "yyyy-MM-dd HH:mmX";
+			} else {
+				return "yyyy-MM-dd HH:mm:ssX";
+			}
+		}
+	}
 	
 	private static Object parse(String value, String type, boolean columnIsPrimary) {
 		// We use Java types here based on
@@ -123,7 +139,7 @@ public class Bulkload {
 			case "int":
 				return Integer.parseInt(value);
 			case "timestamp":
-				DateFormat sfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssX");
+				DateFormat sfmt = new SimpleDateFormat(detectDateFormat(value));
 				try {
 					return sfmt.parse(value);
 				} catch (java.text.ParseException e) {
