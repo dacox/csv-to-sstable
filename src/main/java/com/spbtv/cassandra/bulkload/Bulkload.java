@@ -148,6 +148,8 @@ public class Bulkload {
 				}
 			case "varint":
 				return new BigInteger(value);
+			case "varchar":
+				return value;
 			case "boolean":
 				return Boolean.parseBoolean(value);
 			case "set<text>":
