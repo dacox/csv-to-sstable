@@ -121,7 +121,7 @@ public class Bulkload {
 			case "int":
 				return Integer.parseInt(value);
 			case "boolean":
-				return Boolean.parseBoolean(value);
+				return (value == "0" || value == "1") ? Integer.parseInt(value) != 0 : Boolean.parseBoolean(value);
 			case "set<text>":
 				JSONParser parser = new JSONParser();
 				try {
